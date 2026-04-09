@@ -1,5 +1,13 @@
-package atividade_biblioteca.service.generic;
+package atividade_biblioteca.service;
 
-public class LivroService {
+import atividade_biblioteca.domain.Livro;
+import atividade_biblioteca.service.generic.GenericService;
 
+public class LivroService 
+    extends GenericService<Livro, Long> 
+    implements ILivroService {
+
+    public LivroService(LivroDAO dao) {
+        super(dao);
+    }
 }

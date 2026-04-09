@@ -1,5 +1,12 @@
 package atividade_biblioteca.dao;
 
-public class ILivroDAO {
+import java.util.List;
+
+import atividade_biblioteca.domain.Livro;
+import atividade_biblioteca.services.generic.IGenericDAO;
+
+public interface ILivroDAO extends IGenericDAO<Livro, String>{
+
+	List<Livro> filtrarLivros(String query);
 
 }

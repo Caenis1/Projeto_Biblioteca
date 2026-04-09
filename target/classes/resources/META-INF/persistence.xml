@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence version="2.2"
+    xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence 
+    http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+
+    <!-- Unidade de persistência -->
+    <persistence-unit name="bibliotecaPU" transaction-type="JTA">
+
+        <!-- Aqui você conecta com o datasource do WildFly -->
+        <!-- TEM que ser exatamente o mesmo nome que você colocou no standalone.xml -->
+        <jta-data-source>java:/PostgresDS</jta-data-source>
+
+        <properties>
+
+            <!-- Dialeto do banco (PostgreSQL) -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+
+            <!-- Estratégia de criação de tabelas -->
+            <!-- update = cria/atualiza automaticamente -->
+            <!-- (ideal para desenvolvimento) -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+
+            <!-- Mostra SQL no console -->
+            <property name="hibernate.show_sql" value="true"/>
+
+            <!-- Formata o SQL -->
+            <property name="hibernate.format_sql" value="true"/>
+
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
