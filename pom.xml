@@ -1,0 +1,98 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Identificação do projeto (pode personalizar) -->
+    <groupId>atividade_biblioteca</groupId>
+    <artifactId>atividade_biblioteca</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <!-- WAR = aplicação web para rodar no WildFly -->
+    <packaging>war</packaging>
+
+    <dependencies>
+
+        <!-- API Java EE fornecida pelo servidor (WildFly) -->
+        <!-- "provided" = NÃO será empacotado no .war -->
+        <!-- Evita conflito com o próprio servidor -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>8.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- PrimeFaces (interface JSF) -->
+        <!-- Biblioteca de componentes visuais -->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>11.0.0</version>
+        </dependency>
+
+        <!-- Temas do PrimeFaces -->
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>all-themes</artifactId>
+            <version>1.0.10</version>
+        </dependency>
+
+        <!-- NÃO colocamos o PostgreSQL aqui -->
+        <!-- Porque ele já está registrado como módulo no WildFly -->
+        <!-- Evita duplicidade e conflito -->
+
+        <!-- Testes (não impacta execução da aplicação) -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+    </dependencies>
+
+    <repositories>
+
+        <!-- Repositório do JBoss (necessário para algumas libs antigas) -->
+        <repository>
+            <id>JBoss Repository</id>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+
+        <!-- Repositório do PrimeFaces -->
+        <repository>
+            <id>prime-repo</id>
+            <name>PrimeFaces Maven Repository</name>
+            <url>http://repository.primefaces.org</url>
+            <layout>default</layout>
+        </repository>
+
+    </repositories>
+
+    <build>
+        <plugins>
+
+            <!-- Define a versão do Java -->
+            <!-- WildFly 23 funciona bem com Java 11 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <release>11</release>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
