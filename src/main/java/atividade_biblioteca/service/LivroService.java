@@ -1,5 +1,6 @@
 package atividade_biblioteca.service;
 
+import atividade_biblioteca.dao.LivroDAO;
 import atividade_biblioteca.domain.Livro;
 import atividade_biblioteca.service.generic.GenericService;
 

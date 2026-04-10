@@ -22,7 +22,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TB_EMPRESTIMO")
-public class Emprestimo {
+public class Emprestimo implements Persistente {
 
     public enum Status {
         INICIADO, CONCLUIDO, CANCELADO;
@@ -91,6 +91,8 @@ public class Emprestimo {
         this.aluno = aluno;
     }
 
+    
+
 
     public Set<EmprestimoItem> getItens() {
         return itens;
@@ -153,5 +155,12 @@ public class Emprestimo {
         if (this.status == Status.CONCLUIDO) {
             throw new UnsupportedOperationException("EMPRÉSTIMO JÁ FINALIZADO");
         }
+    }
+
+
+    @Override
+    public void setId(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setId'");
     }
 }

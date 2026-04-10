@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import atividade_biblioteca.domain.Aluno;
 import atividade_biblioteca.service.IAlunoService;
+import atividade_biblioteca.utils.ReplaceUtils;
 
 @Named
 @ViewScoped

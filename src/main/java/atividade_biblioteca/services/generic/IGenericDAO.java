@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import atividade_biblioteca.domain.Persistente;
+import atividade_biblioteca.exceptions.DAOException;
+import atividade_biblioteca.exceptions.MaisDeUmRegistroException;
+import atividade_biblioteca.exceptions.TipoChaveNaoEncontradaException;
 
 public interface IGenericDAO <T extends Persistente, E extends Serializable> {
 
@@ -43,7 +46,7 @@ public interface IGenericDAO <T extends Persistente, E extends Serializable> {
      * @throws MaisDeUmRegistroException 
      * @throws TableException 
      */
-    public T consultar(E id) throws MaisDeUmRegistroException, TableException, DAOException;
+    public T consultar(E id) throws MaisDeUmRegistroException, DAOException;
 
     /**
      * Método que irá retornar todos os registros do banco de dados de uma determinado dado ou tabela

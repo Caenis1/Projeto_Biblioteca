@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import atividade_biblioteca.domain.Persistente;
+import atividade_biblioteca.exceptions.DAOException;
+import atividade_biblioteca.exceptions.MaisDeUmRegistroException;
+import atividade_biblioteca.exceptions.TipoChaveNaoEncontradaException;
+import atividade_biblioteca.services.generic.IGenericDAO;
 
 public abstract class GenericService<T extends Persistente, E extends Serializable> 
 	implements IGenericService<T, E> {
@@ -31,7 +35,7 @@ public abstract class GenericService<T extends Persistente, E extends Serializab
 	}
 
 	@Override
-	public T consultar(E valor) throws MaisDeUmRegistroException, TableException, DAOException {
+	public T consultar(E valor) throws MaisDeUmRegistroException, DAOException {
 		return this.dao.consultar(valor);
 	}
 

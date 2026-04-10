@@ -1,7 +1,15 @@
 package atividade_biblioteca.dao;
 
-public class LivroDAO extends GenericDAO<Livro, String> implements ILivroDAO {
+import java.util.List;
 
+import javax.persistence.TypedQuery;
+
+import atividade_biblioteca.domain.Livro;
+import atividade_biblioteca.services.generic.GenericDAO;
+
+public class LivroDAO 
+    extends GenericDAO<Livro, Long> 
+    implements ILivroDAO {
 	public LivroDAO() {
 		super(Livro.class);
 	}

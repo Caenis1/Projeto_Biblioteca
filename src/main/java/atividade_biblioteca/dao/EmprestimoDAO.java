@@ -1,5 +1,17 @@
 package atividade_biblioteca.dao;
 
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import atividade_biblioteca.domain.Aluno;
+import atividade_biblioteca.domain.Emprestimo;
+import atividade_biblioteca.domain.Livro;
+import atividade_biblioteca.exceptions.DAOException;
+import atividade_biblioteca.exceptions.TipoChaveNaoEncontradaException;
+import atividade_biblioteca.services.generic.GenericDAO;
+
 public class EmprestimoDAO extends GenericDAO<Emprestimo, Long> implements IEmprestimoDAO {
 
 	public EmprestimoDAO() {
@@ -24,14 +36,15 @@ public class EmprestimoDAO extends GenericDAO<Emprestimo, Long> implements IEmpr
 	@Override
 	public Emprestimo cadastrar(Emprestimo entity) throws TipoChaveNaoEncontradaException, DAOException {
 		try {
-			entity.getProdutos().forEach(prod -> {
-				Produto prodJpa = entityManager.merge(prod.getProduto());
-				prod.setProduto(prodJpa);
-			});
-			Aluno Aluno = entityManager.merge(entity.getCliente());
-			entity.setCliente(Aluno);
+			entity.getItens().forEach(item -> {
+    		Livro livroJpa = entityManager.merge(item.getLivro());
+    		item.setLivro(livroJpa);
+    		item.setEmprestimo(entity);
+							});
+			Aluno Aluno = entityManager.merge(entity.getAluno());
+			entity.setAluno(Aluno);
 			entityManager.persist(entity);
-//			entityManager.getTransaction().commit();
+			
 			return entity;
 		} catch (Exception e) {
 			throw new DAOException("ERRO SALVANDO VENDA ", e);
@@ -52,6 +65,22 @@ public class EmprestimoDAO extends GenericDAO<Emprestimo, Long> implements IEmpr
 		Emprestimo emprestimo = tpQuery.getSingleResult(); 
 		return emprestimo;
 	}
+
+	@Override
+public boolean existeLivroEmprestado(Long idLivro) {
+
+    String jpql = "SELECT COUNT(ei) " +
+              "FROM EmprestimoItem ei " +
+              "WHERE ei.livro.id = :idLivro " +
+              "AND ei.dataDevolucao IS NULL";
+
+    Long count = entityManager
+            .createQuery(jpql, Long.class)
+            .setParameter("idLivro", idLivro)
+            .getSingleResult();
+
+    return count > 0;
+}
 	
 //	@Override
 //	public Collection<Venda> buscarTodos() throws DAOException {

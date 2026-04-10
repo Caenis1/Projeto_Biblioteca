@@ -2,6 +2,8 @@ package atividade_biblioteca.service;
 
 import javax.transaction.Transactional;
 
+import atividade_biblioteca.dao.EmprestimoDAO;
+import atividade_biblioteca.dao.LivroDAO;
 import atividade_biblioteca.domain.Emprestimo;
 import atividade_biblioteca.domain.Livro;
 import atividade_biblioteca.service.generic.GenericService;
@@ -19,22 +21,24 @@ public class EmprestimoService
         this.livroDAO = livroDAO;
     }
 
-    @Override
-    @Transactional
-    public void adicionarLivro(Long idEmprestimo, Long idLivro) {
+@Override
+@Transactional
+public void adicionarLivro(Long idEmprestimo, Long idLivro) throw new RuntimeException("Livro já está emprestado"); {
 
-        Emprestimo emp = emprestimoDAO.consultar(idEmprestimo);
-        Livro livro = livroDAO.consultar(idLivro);
+    Emprestimo emp = emprestimoDAO.consultar(idEmprestimo);
 
-        if (livro.isEmprestado()) {
-            throw new RuntimeException("Livro já emprestado");
-        }
+    Livro livro = livroDAO.consultar(idLivro);
 
-        emp.adicionarLivro(livro);
-        livro.setEmprestado(true);
-
-        emprestimoDAO.alterar(emp);
+    // 🔥 validação correta
+    if (emprestimoDAO.existeLivroEmprestado(idLivro)) {
+        throw new RuntimeException("Livro já está emprestado");
     }
+
+    emp.adicionarLivro(livro);
+
+    emprestimoDAO.alterar(emp);
+    }
+}
 
     @Override
     @Transactional
@@ -44,7 +48,6 @@ public class EmprestimoService
         Livro livro = livroDAO.consultar(idLivro);
 
         emp.removerLivro(livro);
-        livro.setEmprestado(false);
 
         emprestimoDAO.alterar(emp);
     }
@@ -65,10 +68,6 @@ public class EmprestimoService
     public void cancelarEmprestimo(Long idEmprestimo) {
 
         Emprestimo emp = emprestimoDAO.consultar(idEmprestimo);
-
-        emp.getItens().forEach(item -> {
-            item.getLivro().setEmprestado(false);
-        });
 
         emp.cancelarEmprestimo();
 

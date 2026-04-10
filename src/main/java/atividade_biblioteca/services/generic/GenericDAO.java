@@ -8,6 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import atividade_biblioteca.domain.Persistente;
+import atividade_biblioteca.exceptions.DAOException;
+import atividade_biblioteca.exceptions.MaisDeUmRegistroException;
+import atividade_biblioteca.exceptions.TipoChaveNaoEncontradaException;
 
 public class GenericDAO <T extends Persistente, E extends Serializable> implements IGenericDAO <T,E> {
 
@@ -52,7 +55,7 @@ public class GenericDAO <T extends Persistente, E extends Serializable> implemen
 	}
 
 	@Override
-	public T consultar(E valor) throws MaisDeUmRegistroException, TableException, DAOException {
+	public T consultar(E valor) throws MaisDeUmRegistroException, DAOException {
 		T entity = entityManager.find(this.persistenteClass, valor);
 //		entityManager.getTransaction().commit();
 		return entity;

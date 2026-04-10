@@ -26,9 +26,7 @@ public class EmprestimoItem{
     @JoinColumn(name = "id_emprestimo_fk", nullable = false)
     private Emprestimo emprestimo;
 
-    public EmprestimoItem() {
-    }
-
+    
     public EmprestimoItem(Livro livro) {
         this.livro = livro;
     }
